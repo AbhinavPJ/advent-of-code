@@ -1,6 +1,6 @@
 /**
  * author:VectorVirtuoso
- * created: 18:40:54 on 25-11-2025
+ * created: 02:14:58 on 26-11-2025
  **/
 #include <iostream>
 #include <fstream>
@@ -254,30 +254,91 @@ int gcd(int a, int b)
 
 void solve()
 {
-    int n;
-    cin >> n;
+    string s;
+    string line;
+    while (getline(cin, line))
+    {
+        s += line;
+    }
+    int ans = 0;
+    bool dont = false;
+    for (int i = 3; i < s.size(); i++)
+    {
+        string temp = s.substr(i - 3, 4);
+        string temp2 = "";
+        if (i >= 6)
+            temp2 = s.substr(i - 6, 7);
+        if (temp2 == "don't()")
+        {
+            dont = true;
+            i += 6;
+            continue;
+        }
+        if (temp == "do()")
+        {
+            dont = false;
+            i += 3;
+            continue;
+        }
+        int cur = i + 1;
+        if (temp == "mul(")
+        {
+            int a = 0, b = 0;
+            bool bad = false;
+            while (s[cur] != ',')
+            {
+                if (s[cur] < '0' || s[cur] > '9')
+                {
+                    bad = true;
+                    break;
+                }
+                a = 10 * a + (s[cur] - '0');
+                cur++;
+                if (cur >= s.size())
+                    break;
+            }
+            cur++;
+            if (bad)
+            {
+                // print(cur);
+                i = cur;
+                continue;
+            }
+            print(a);
+            if (cur >= s.size())
+                break;
+            while (s[cur] != ')')
+            {
+                if (s[cur] < '0' || s[cur] > '9')
+                {
+                    bad = true;
+                    break;
+                }
+                b = 10 * b + (s[cur] - '0');
+                cur++;
+                if (cur >= s.size())
+                    break;
+            }
+            print(b);
+            if (cur >= s.size())
+                break;
+            if (!bad and !dont)
+                ans += a * b;
+        }
+        i = cur - 1;
+    }
+    cout << ans << endl;
 }
 
 signed main()
 {
 
     fast_io;
-    vi a;
-    vi b;
-    loop(i, 1000)
-    {
-        int x, y;
-        cin >> x >> y;
-        a.pb(x);
-        b.pb(y);
-    }
-    sort(all(a));
-    sort(all(b));
-    int ans = 0;
-    loop(i, 1000)
-    {
-        ans += abs(a[i] - b[i]);
-    }
-    cout << ans << endl;
+
+    int t = 1;
+    // cin >> t;
+    while (t--)
+        solve();
+
     return 0;
 }
