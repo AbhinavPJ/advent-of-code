@@ -252,34 +252,36 @@ int gcd(int a, int b)
    Implementations are simple.
 */
 
-void solve()
-{
-    int n;
-    cin >> n;
-}
-
 signed main()
 {
 
     fast_io;
-    vi a;
-    map<int, int> mp;
-    vi b;
-    loop(i, 1000)
+    vector<string> v;
+    string line;
+    while (getline(cin, line))
     {
-        int x, y;
-        cin >> x >> y;
-        a.pb(x);
-        mp[y]++;
+        v.pb(line);
     }
-    sort(all(a));
-    sort(all(b));
     int ans = 0;
-    loop(i, 1000)
+    for (int i = 1; i < v.size() - 1; i++)
     {
-        ans += a[i] * mp[a[i]];
+        for (int j = 1; j < v[i].size() - 1; j++)
+        {
+            string a = "";
+            if (v[i][j] == 'A')
+            {
+                a += v[i - 1][j - 1];
+                a += v[i - 1][j + 1];
+                a += v[i + 1][j - 1];
+                a += v[i + 1][j + 1];
+            }
+            // MSMS or MMSS or SSMM or SMSM
+            if (a == "MSMS" || a == "MMSS" || a == "SSMM" || a == "SMSM")
+            {
+                ans++;
+            }
+        }
     }
-    cout
-        << ans << endl;
+    cout << ans << endl;
     return 0;
 }

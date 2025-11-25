@@ -252,31 +252,74 @@ int gcd(int a, int b)
    Implementations are simple.
 */
 
-void solve()
-{
-    int n;
-    cin >> n;
-}
-
 signed main()
 {
 
     fast_io;
-    vi a;
-    vi b;
-    loop(i, 1000)
+    vector<string> v;
+    string line;
+    while (getline(cin, line))
     {
-        int x, y;
-        cin >> x >> y;
-        a.pb(x);
-        b.pb(y);
+        v.pb(line);
     }
-    sort(all(a));
-    sort(all(b));
     int ans = 0;
-    loop(i, 1000)
+    for (int i = 0; i < v.size(); i++)
     {
-        ans += abs(a[i] - b[i]);
+        for (int j = 0; j < v[i].size(); j++)
+        {
+            int orig = ans;
+            if (j >= 3 and v[i].substr(j - 3, 4) == "XMAS")
+            {
+                ans++;
+            }
+            if (j < v[i].size() - 3 and v[i].substr(j, 4) == "SAMX")
+            {
+                ans++;
+            }
+            if (i >= 3 and v[i - 3].size() > j and v[i - 2].size() > j and v[i - 1].size() > j and v[i].size() > j)
+            {
+                if (v[i - 3][j] == 'X' and v[i - 2][j] == 'M' and v[i - 1][j] == 'A' and v[i][j] == 'S')
+                {
+                    ans++;
+                }
+            }
+            if (i < v.size() - 3 and v[i].size() > j and v[i + 1].size() > j and v[i + 2].size() > j and v[i + 3].size() > j)
+            {
+                if (v[i][j] == 'S' and v[i + 1][j] == 'A' and v[i + 2][j] == 'M' and v[i + 3][j] == 'X')
+                {
+                    ans++;
+                }
+            }
+            // diagonals
+            if (i >= 3 and j >= 3)
+            {
+                if (v[i - 3][j - 3] == 'X' and v[i - 2][j - 2] == 'M' and v[i - 1][j - 1] == 'A' and v[i][j] == 'S')
+                {
+                    ans++;
+                }
+            }
+            if (i < v.size() - 3 and j < v[i].size() - 3)
+            {
+                if (v[i][j] == 'S' and v[i + 1][j + 1] == 'A' and v[i + 2][j + 2] == 'M' and v[i + 3][j + 3] == 'X')
+                {
+                    ans++;
+                }
+            }
+            if (i >= 3 and j < v[i].size() - 3)
+            {
+                if (v[i - 3][j + 3] == 'X' and v[i - 2][j + 2] == 'M' and v[i - 1][j + 1] == 'A' and v[i][j] == 'S')
+                {
+                    ans++;
+                }
+            }
+            if (i < v.size() - 3 and j >= 3)
+            {
+                if (v[i][j] == 'S' and v[i + 1][j - 1] == 'A' and v[i + 2][j - 2] == 'M' and v[i + 3][j - 3] == 'X')
+                {
+                    ans++;
+                }
+            }
+        }
     }
     cout << ans << endl;
     return 0;
