@@ -252,32 +252,62 @@ int gcd(int a, int b)
    Implementations are simple.
 */
 
-void solve()
-{
-    int n;
-    cin >> n;
-}
-
 signed main()
 {
-
     fast_io;
-    vi a;
-    vi b;
-    loop(i, 1000)
+    vi constr;
+    vii edges;
+    loop(i, 1176)
     {
-        int x, y;
-        cin >> x >> y;
-        a.pb(x);
-        b.pb(y);
+        string s;
+        cin >> s;
+        edges.pb({10 * (s[0] - '0') + (s[1] - '0'), 10 * (s[3] - '0') + (s[4] - '0')});
     }
-    sort(all(a));
-    sort(all(b));
+    // print(edges.size());
     int ans = 0;
-    loop(i, 1000)
+    vvi ordered(100, vi(100, 0));
+    loop(i, edges.size())
     {
-        ans += abs(a[i] - b[i]);
+        ordered[edges[i][0]][edges[i][1]] = 1;
+    }
+    for (int tc = 1177; tc <= 1378; tc++)
+    {
+        string s;
+        cin >> s;
+        vi order;
+        string cur;
+        for (char c : s)
+        {
+            if (c == ',')
+            {
+                if (!cur.empty())
+                {
+                    order.pb(stoi(cur));
+                    cur.clear();
+                }
+            }
+            else
+            {
+                cur += c;
+            }
+        }
+        if (!cur.empty())
+            order.pb(stoi(cur));
+        bool ok = true;
+        loop(i, order.size())
+        {
+            for (int j = i + 1; j < order.size(); j++)
+            {
+                if ((ordered[order[j]][order[i]]))
+                {
+                    ok = false;
+                }
+            }
+        }
+        if (ok)
+        {
+            ans += order[order.size() / 2];
+        }
     }
     cout << ans << endl;
-    return 0;
 }

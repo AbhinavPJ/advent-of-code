@@ -251,35 +251,125 @@ int gcd(int a, int b)
 
    Implementations are simple.
 */
-
-void solve()
+vi topo;
+void dfs(int node, vvi &adj, vi &visited)
 {
-    int n;
-    cin >> n;
+    visited[node] = 1;
+    for (int neighbor = 0; neighbor < adj.size(); neighbor++)
+    {
+        if (adj[node][neighbor] && !visited[neighbor])
+        {
+            dfs(neighbor, adj, visited);
+        }
+    }
+    topo.pb(node);
 }
+vi toposort(vi &nodes, vvi &ordered)
+{
+    set<int> s;
+    for (int x : nodes)
+    {
+        s.insert(x);
+    }
+    vvi adj(ordered.size(), vi(ordered.size(), 0));
+    for (int i = 0; i < nodes.size(); i++)
+    {
+        for (int j = 0; j < nodes.size(); j++)
+        {
+            if (i == j)
+                continue;
+            if (ordered[nodes[i]][nodes[j]])
+            {
+                adj[nodes[i]][nodes[j]] = 1;
+            }
+            if (ordered[nodes[j]][nodes[i]])
+            {
+                adj[nodes[j]][nodes[i]] = 1;
+            }
+        }
+    }
 
+    topo.clear();
+    vi visited(adj.size(), 0);
+    for (int node : nodes)
+    {
+        if (!visited[node])
+        {
+            dfs(node, adj, visited);
+        }
+    }
+    reverse(all(topo));
+    vi ans;
+    for (int x : topo)
+    {
+        if (s.find(x) != s.end())
+            ans.pb(x);
+    }
+    return topo;
+}
 signed main()
 {
-
     fast_io;
-    vi a;
-    map<int, int> mp;
-    vi b;
-    loop(i, 1000)
+    vi constr;
+    vii edges;
+    loop(i, 1176)
     {
-        int x, y;
-        cin >> x >> y;
-        a.pb(x);
-        mp[y]++;
+        string s;
+        cin >> s;
+        edges.pb({10 * (s[0] - '0') + (s[1] - '0'), 10 * (s[3] - '0') + (s[4] - '0')});
     }
-    sort(all(a));
-    sort(all(b));
+    // print(edges.size());
     int ans = 0;
-    loop(i, 1000)
+    vvi ordered(100, vi(100, 0));
+    loop(i, edges.size())
     {
-        ans += a[i] * mp[a[i]];
+        ordered[edges[i][0]][edges[i][1]] = 1;
     }
-    cout
-        << ans << endl;
-    return 0;
+    for (int tc = 1177; tc <= 1378; tc++)
+    {
+        string s;
+        cin >> s;
+        vi order;
+        string cur;
+        for (char c : s)
+        {
+            if (c == ',')
+            {
+                if (!cur.empty())
+                {
+                    order.pb(stoi(cur));
+                    cur.clear();
+                }
+            }
+            else
+            {
+                cur += c;
+            }
+        }
+        if (!cur.empty())
+            order.pb(stoi(cur));
+        bool ok = true;
+        loop(i, order.size())
+        {
+            for (int j = i + 1; j < order.size(); j++)
+            {
+                if ((ordered[order[j]][order[i]]))
+                {
+                    ok = false;
+                }
+            }
+        }
+        if (ok)
+        {
+
+            continue;
+        }
+        ok = true;
+        bool found = true;
+        int ti = 0;
+        vi tops = toposort(order, ordered);
+        assert(tops.size() == order.size());
+        ans += tops[tops.size() / 2];
+    }
+    cout << ans << endl;
 }
