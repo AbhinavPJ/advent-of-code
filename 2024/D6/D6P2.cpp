@@ -1,6 +1,6 @@
 /**
  * author:VectorVirtuoso
- * created: 18:40:54 on 25-11-2025
+ * created: 17:08:12 on 26-11-2025
  **/
 #include <iostream>
 #include <fstream>
@@ -254,30 +254,181 @@ int gcd(int a, int b)
 
 void solve()
 {
-    int n;
-    cin >> n;
+    vector<string> v;
+    int x, y;
+    loop(i, 130)
+    {
+        string s;
+        cin >> s;
+        v.pb(s);
+        for (int j = 0; j < s.size(); j++)
+        {
+            if (s[j] == '^')
+            {
+
+                x = i;
+                y = j;
+            }
+        }
+    }
+
+    vector<string> dup;
+    dup.pb(string(v[0].size() + 2, '.'));
+    for (string s : v)
+    {
+        dup.pb('.' + s + '.');
+    }
+    dup.pb(string(v[0].size() + 2, '.'));
+    v = dup;
+    x++;
+    y++;
+    int homex = x;
+    int homey = y;
+    int dir = 0; // 0 up,1 right,2 down,3 left
+    while (x > 0 and y > 0 and x < v.size() and y < v[0].size())
+    {
+        dup[x][y] = 'X';
+        if (dir == 0)
+        {
+            if (v[x - 1][y] == '#')
+            {
+                // turn right
+                dir = 1;
+                continue;
+            }
+            x--;
+            continue;
+        }
+        if (dir == 1)
+        {
+            if (v[x][y + 1] == '#')
+            {
+                // turn right
+                dir = 2;
+                continue;
+            }
+            y++;
+            continue;
+        }
+        if (dir == 2)
+        {
+            if (v[x + 1][y] == '#')
+            {
+                // turn right
+                dir = 3;
+                continue;
+            }
+            x++;
+            continue;
+        }
+        if (dir == 3)
+        {
+            if (v[x][y - 1] == '#')
+            {
+                // turn right
+                dir = 0;
+                continue;
+            }
+            y--;
+            continue;
+        }
+    }
+    int ans = 0;
+    for (int modx = 1; modx < v.size() - 1; modx++)
+    {
+        for (int mody = 1; mody < v[0].size() - 1; mody++)
+        {
+            if (dup[modx][mody] == 'X')
+            {
+                v[modx][mody] = '#';
+            }
+            else
+            {
+                continue;
+            }
+            x = homex;
+            y = homey;
+            dir = 0; // 0 up,1 right,2 down,3 left
+            map<ti, bool> visited;
+            bool loop = false;
+            while (x > 0 and y > 0 and x < v.size() and y < v[0].size())
+            {
+                if (visited[{x, y, dir}])
+                {
+                    loop = true;
+                    break;
+                }
+                visited[{x, y, dir}] = true;
+                if (dir == 0)
+                {
+                    if (v[x - 1][y] == '#')
+                    {
+                        // turn right
+                        dir = 1;
+                        continue;
+                    }
+                    x--;
+                    continue;
+                }
+                if (dir == 1)
+                {
+                    if (v[x][y + 1] == '#')
+                    {
+                        // turn right
+                        dir = 2;
+                        continue;
+                    }
+                    y++;
+                    continue;
+                }
+                if (dir == 2)
+                {
+                    if (v[x + 1][y] == '#')
+                    {
+                        // turn right
+                        dir = 3;
+                        continue;
+                    }
+                    x++;
+                    continue;
+                }
+                if (dir == 3)
+                {
+                    if (v[x][y - 1] == '#')
+                    {
+                        // turn right
+                        dir = 0;
+                        continue;
+                    }
+                    y--;
+                    continue;
+                }
+            }
+            if (loop)
+            {
+                ans++;
+            }
+            v[modx][mody] = '.';
+        }
+    }
+    cout << 0 << endl;
+    cout << ans << endl;
 }
 
 signed main()
 {
 
     fast_io;
-    vi a;
-    vi b;
-    loop(i, 1000)
-    {
-        int x, y;
-        cin >> x >> y;
-        a.pb(x);
-        b.pb(y);
-    }
-    sort(all(a));
-    sort(all(b));
-    int ans = 0;
-    loop(i, 1000)
-    {
-        ans += abs(a[i] - b[i]);
-    }
-    cout << ans << endl;
+
+    int t = 1;
+    // start clock
+    //  time taken
+    auto start = std::chrono::high_resolution_clock::now();
+    while (t--)
+        solve();
+    // end clock
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    cout << "Time taken: " << elapsed.count() << " seconds" << endl;
     return 0;
 }
