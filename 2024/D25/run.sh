@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+
 for cpp in D*P*.cpp; do
     base="${cpp%.cpp}"           # D1P1
     input="${base}.txt"          # D1P1.txt
