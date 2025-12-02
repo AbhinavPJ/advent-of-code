@@ -1,6 +1,6 @@
 /**
  * author:VectorVirtuoso
- * created: 04:41:22 on 02-12-2025
+ * created: 14:42:05 on 02-12-2025
  **/
 #include <iostream>
 #include <fstream>
@@ -255,74 +255,79 @@ int gcd(int a, int b)
 void solve()
 {
     string s;
-    int ans = 0;
-    while (getline(cin, s))
+    cin >> s;
+    string token;
+    int ans1 = 0;
+    int ans2 = 0;
+    int cur = 0;
+    bool first = true;
+    while (cur < s.size())
     {
-        int cur = 0;
-        char cu = 'x';
-        int i = 0;
-        while (true)
+        int l = 0, r = 0;
+        while (s[cur] != '-')
         {
-            if (s[i] == ':')
+            l = 10 * l + (s[cur] - '0');
+            cur++;
+        }
+        first = false;
+        cur++;
+        while (cur < s.size() and s[cur] != ',')
+        {
+            r = 10 * r + (s[cur] - '0');
+            cur++;
+        }
+        first = true;
+        cur++;
+        for (int i = l; i <= r; i++)
+        {
+            string num = to_string(i);
+            if (num.substr(0, num.size() / 2) == num.substr(num.size() / 2, num.size() - num.size() / 2))
             {
-                i += 2;
-                break;
+                ans1 += i;
             }
-            cu = s[i] - '0';
-            cur = 10 * cur + cu;
-            i++;
-        }
-        int alpha = cur;
-        cur = 0;
-        vi v;
-        for (; i < s.size(); i++)
-        {
-            if (s[i] == ' ')
+            // each factor of num.size()
+            vi factors;
+            for (int j = 1; j * j <= num.size(); j++)
             {
-                v.pb(cur);
-                cur = 0;
-                continue;
-            }
-            cur = 10 * cur + s[i] - '0';
-        }
-        v.pb(cur);
-        int n = v.size();
-        bool add = false;
-        loop(i, v.size())
-        {
-            cout << v[i] << " ";
-        }
-        cout << endl;
-        for (int bitmask = 0; bitmask < (1ll << (n - 1)); bitmask++)
-        {
-            int dup = bitmask;
-            // sum of products
-            int prod = v[0];
-            int eval = 0;
-            loop(i, n - 1)
-            {
-                if (dup % 2)
+                if (num.size() % j == 0)
                 {
-                    prod *= v[i + 1];
+                    factors.pb(j);
+                    if (j != num.size() / j)
+                    {
+                        factors.pb(num.size() / j);
+                    }
                 }
-                else
-                {
-                    eval += prod;
-                    prod = v[i + 1];
-                }
-                dup /= 2;
             }
-            eval += prod;
-            if (alpha == eval)
+
+            for (auto f : factors)
             {
-                add = true;
+                if (f == num.size())
+                    continue;
+                string built = "";
+                int times = num.size() / f;
+                set<string> st;
+                for (int k = 0; k < times; k++)
+                {
+                    built = "";
+                    for (int m = 0; m < num.size(); m++)
+                    {
+                        built += num[m % f + k * f];
+                    }
+                    st.insert(built);
+                    if (st.size() > 1)
+                    {
+                        break;
+                    }
+                }
+                if (st.size() == 1)
+                {
+                    ans2 += i;
+                    break;
+                }
             }
-            print(bitmask);
-            print(eval);
         }
-        ans += add * alpha;
     }
-    cout << ans << endl;
+    cout << ans1 << " " << ans2 << endl;
 }
 
 signed main()

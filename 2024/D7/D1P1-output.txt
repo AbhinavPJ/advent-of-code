@@ -1,1 +1,94 @@
-1320851
+10 19 
+bitmask: 0
+eval: 29
+bitmask: 1
+eval: 190
+81 40 27 
+bitmask: 0
+eval: 148
+bitmask: 1
+eval: 3267
+bitmask: 2
+eval: 1161
+bitmask: 3
+eval: 87480
+17 5 
+bitmask: 0
+eval: 22
+bitmask: 1
+eval: 85
+15 6 
+bitmask: 0
+eval: 21
+bitmask: 1
+eval: 90
+6 8 6 15 
+bitmask: 0
+eval: 35
+bitmask: 1
+eval: 69
+bitmask: 2
+eval: 69
+bitmask: 3
+eval: 303
+bitmask: 4
+eval: 104
+bitmask: 5
+eval: 138
+bitmask: 6
+eval: 726
+bitmask: 7
+eval: 4320
+16 10 13 
+bitmask: 0
+eval: 39
+bitmask: 1
+eval: 173
+bitmask: 2
+eval: 146
+bitmask: 3
+eval: 2080
+17 8 14 
+bitmask: 0
+eval: 39
+bitmask: 1
+eval: 150
+bitmask: 2
+eval: 129
+bitmask: 3
+eval: 1904
+9 7 18 13 
+bitmask: 0
+eval: 47
+bitmask: 1
+eval: 94
+bitmask: 2
+eval: 148
+bitmask: 3
+eval: 1147
+bitmask: 4
+eval: 250
+bitmask: 5
+eval: 297
+bitmask: 6
+eval: 1647
+bitmask: 7
+eval: 14742
+11 6 16 20 
+bitmask: 0
+eval: 53
+bitmask: 1
+eval: 102
+bitmask: 2
+eval: 127
+bitmask: 3
+eval: 1076
+bitmask: 4
+eval: 337
+bitmask: 5
+eval: 386
+bitmask: 6
+eval: 1931
+bitmask: 7
+eval: 21120
+3457
